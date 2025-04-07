@@ -3,3 +3,4 @@ customer_id,order_id,order_date,product,amount
 2,1002,2024-04-01,Banana,20
 1,1003,2024-04-02,Orange,15
 3,1004,2024-04-03,Apple,5
+
