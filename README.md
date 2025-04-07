@@ -29,6 +29,7 @@ The final data is stored in `customer_orders.db` in the table `orders`.
 ## Output
 
 Sample output:
+```
 ✅ Data extraction successful!
 customer_id  order_id  order_date product  amount
 0            1      1001  2024-04-01   Apple      10
@@ -47,7 +48,7 @@ customer_id  order_id order_date product  amount  total_price
 (2, 1002, '2024-04-01 00:00:00.000000', 'Banana', 20, 100)
 (1, 1003, '2024-04-02 00:00:00.000000', 'Orange', 15, 75)
 (3, 1004, '2024-04-03 00:00:00.000000', 'Apple', 5, 25)
-
+```
 ## Author
 
 Azamat Muminov
