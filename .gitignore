@@ -1,0 +1,3 @@
+venv/
+__pycache__/
+customer_orders.db
