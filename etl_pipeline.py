@@ -8,16 +8,16 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(
 
 
 # Extract the data from .csv file
-def extract_data(file_path, batch_size=1000):
+def extract_data(file_path, chunk_size=1000):
     try:
-        batch_list = [] # list to store batch
-        for batch in pd.read_csv(file_path, batchsize = batch_size):
-            batch_list.append(batch)
-
+        chunk_list = []  # List to store chunks
+        for chunk in pd.read_csv(file_path, chunksize=chunk_size):
+            chunk_list.append(chunk)
+        df = pd.concat(chunk_list, axis=0)
         logging.info("✅ Data extraction successful!")
         return df
     except Exception as e:
-        logging.info(f'❌ Error in extracting data: {e}')
+        logging.error(f"❌ Error in extracting data: {e}")
         return None
 
 
@@ -44,6 +44,16 @@ def transform_data(df):
         #  Clean any missing values (if any)
         df = df.dropna()
 
+        #  Remove duplicates
+        df = df.drop_duplicates()
+
+        #  Data aggragation: Group by 'customer_id' and sum the 'total_price'
+        customer_spending = df.groupby('customer_id')['total_price'].sum().reset_index()
+        customer_spending.rename(columns={'total_price': 'total_spent'}, inplace=True)
+        df = pd.merge(df, customer_spending, on='customer_id', how='left')
+
+        df['total_spent'] = df['total_spent'].fillna(0)  # Fill NaN with 0
+        df['total_spent'] = df['total_spent'].astype(float)  # Ensure total_spent is float
         logging.info(f'✅ Data transformation successful!')
         return df
     except Exception as e:
